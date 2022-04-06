@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour
 
     public InputController ic;
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         InputController ic = InputController.Instance;
         CameraController cameraController = FindObjectOfType<CameraController>();
