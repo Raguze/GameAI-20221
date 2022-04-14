@@ -18,12 +18,9 @@ public class CameraController : MonoBehaviour
     public Transform Target { get; set; }
     private void LateUpdate()
     {
-        Debug.Log(Target);
         if (Target)
         {
             tf.position = Vector3.SmoothDamp(tf.position, Target.position, ref currentVelocity, smoothTime, maxSpeed);
         }
     }
-
-
 }

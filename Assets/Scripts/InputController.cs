@@ -9,7 +9,8 @@ public class InputController : MonoBehaviour
 
     private float horizontal;
     private float vertical;
-
+    private Vector2 mousePosition;
+    private Vector3 screenToWorld;
     //static public 
 
     static public InputController Instance 
@@ -44,6 +45,10 @@ public class InputController : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
+        mousePosition = Input.mousePosition;
+        screenToWorld = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        
 
         EmitEvents();
     }
@@ -52,5 +57,7 @@ public class InputController : MonoBehaviour
     {
         GameEvents.InputHorizontal.Invoke(horizontal);
         GameEvents.InputVertical.Invoke(vertical);
+        GameEvents.InputMousePosition.Invoke(mousePosition);
+        GameEvents.ScreenToWorld.Invoke(screenToWorld);
     }
 }

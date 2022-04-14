@@ -10,6 +10,8 @@ public class AIAgent : MonoBehaviour
     protected List<IAIAction> actions = new List<IAIAction>();
 
     List<IAIAction> updateList = new List<IAIAction>();
+
+    Coroutine updateAICoroutine;
     private void Awake()
     {
         Agent = GetComponent<PhysicsAgent>();
@@ -18,24 +20,50 @@ public class AIAgent : MonoBehaviour
         actions.Add(new AIWalk());
     }
 
+    void Start()
+    {
+        Alive();
+    }
+
+    public void Alive()
+    {
+        if(updateAICoroutine == null)
+        {
+            updateAICoroutine = StartCoroutine(UpdateAI());
+        }
+    }
+
+    public void Die()
+    {
+        StopCoroutine(updateAICoroutine);
+        updateAICoroutine = null;
+    }
+
     // Update is called once per frame
-    void Update()
+    IEnumerator UpdateAI()
     {
         //actions.Select((ac) => {
         //    return ac.Condition();
         //}).ToList()
 
-        updateList.Clear();
+        while(true)
+        {
+            updateList.Clear();
 
-        actions.ForEach(action => {
-            if(action.Condition())
-            {
-                action.Calculate();
-                updateList.Add(action);
-            }
-        });
+            actions.ForEach(action => {
+                if (action.Condition())
+                {
+                    action.Calculate();
+                    updateList.Add(action);
+                }
+            });
 
-        updateList = updateList.OrderBy(action => action.Points).ToList<IAIAction>();
-        Debug.Log("AI Agent");
+            updateList = updateList.OrderByDescending(action => action.Points).ToList<IAIAction>();
+            IAIAction action = updateList[0];
+            //StartCoroutine(action.Exec(Agent));
+            //Debug.Log("AI Agent");
+            Debug.Log($"{action.GetType()} {action.Points}");
+            yield return new WaitForSeconds(5f);
+        }
     }
 }
