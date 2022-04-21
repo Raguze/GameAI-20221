@@ -53,7 +53,7 @@ public class PlayerController : PhysicsAgent
 
         if(Input.GetMouseButtonDown(0))
         {
-            agent.SetDestination(worldPoint);
+            NMAgent.SetDestination(worldPoint);
         }
 
         //int b;

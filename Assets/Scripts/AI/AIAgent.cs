@@ -18,6 +18,7 @@ public class AIAgent : MonoBehaviour
 
         actions.Add(new AIIdle());
         actions.Add(new AIWalk());
+        actions.Add(new AIRest());
     }
 
     void Start()
@@ -62,8 +63,9 @@ public class AIAgent : MonoBehaviour
             IAIAction action = updateList[0];
             //StartCoroutine(action.Exec(Agent));
             //Debug.Log("AI Agent");
-            Debug.Log($"{action.GetType()} {action.Points}");
-            yield return new WaitForSeconds(5f);
+            //Debug.Log($"{action.GetType()} {action.Points}");
+
+            yield return action.Exec(Agent);
         }
     }
 }

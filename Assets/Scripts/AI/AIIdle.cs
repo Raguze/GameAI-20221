@@ -8,7 +8,7 @@ public class AIIdle : IAIAction
 
     public int Calculate()
     {
-        Points = Random.Range(0, 80);
+        Points = Random.Range(0, 40);
         return Points;
     }
 
